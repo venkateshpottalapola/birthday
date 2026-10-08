@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Something Special For You 🎁</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Fredoka One',Impact,sans-serif}
+
+/* BG */
+.bg{position:fixed;inset:0;background:url("assets/images/bg.jpg") center/cover no-repeat;
+  filter:blur(6px) brightness(.8);transform:scale(1.08);z-index:0}
+.bg-ov{position:fixed;inset:0;background:rgba(255,230,210,.35);z-index:1}
+
+/* PAGE */
+.page{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:1rem}
+
+/* CARD */
+.card{
+  background:rgba(255,255,255,.9);backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-radius:38px;padding:2.6rem 2.8rem 2.4rem;
+  max-width:430px;width:100%;text-align:center;
+  box-shadow:0 20px 70px rgba(0,0,0,.22);
+}
+
+/* SCREENS */
+.screen{display:none;animation:fadeIn .55s ease both}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}
+
+/* First card pop */
+#s1.active{animation:pop .65s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes pop{from{opacity:0;transform:scale(.8) translateY(30px)}to{opacity:1;transform:none}}
+
+/* PENGUIN */
+.peng{margin:0 auto .8rem;display:flex;justify-content:center}
+.peng svg{width:148px;height:148px;
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,.15));
+  animation:bob 2s ease-in-out infinite;transform-origin:bottom center}
+.peng.party svg{animation:dance 1s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-8px) rotate(1.5deg)}}
+@keyframes dance{0%,100%{transform:translateY(0) rotate(-4deg) scale(1)}50%{transform:translateY(-10px) rotate(4deg) scale(1.05)}}
+.peng-sad svg{animation:shake .45s ease 3}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-9deg)}75%{transform:rotate(9deg)}}
+
+/* EMOJI BIG */
+.big-emoji{font-size:3.8rem;margin-bottom:.4rem;display:block;animation:bounce 1.2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.1)}}
+
+/* TEXT */
+h1{font-size:clamp(1.55rem,5vw,2.2rem);color:#222;line-height:1.2;margin-bottom:.35rem}
+h1.bday{color:#e8384b;font-size:clamp(1.7rem,5.5vw,2.5rem)}
+p.sub{font-family:'Nunito',sans-serif;font-size:.95rem;color:#999;font-weight:700;margin-bottom:1.7rem}
+p.sub.pink{color:#e8384b}
+h2.no-h{font-size:clamp(1.3rem,4.5vw,1.85rem);color:#222;line-height:1.25;margin-bottom:.3rem}
+p.no-s{font-family:'Nunito',sans-serif;font-size:.9rem;color:#aaa;font-weight:700;margin-bottom:1.6rem}
+
+/* CONFETTI ROW (top of bday screen) */
+.confetti-row{font-size:1.4rem;letter-spacing:.4rem;margin-bottom:.6rem}
+
+/* BUTTONS */
+.row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{font-family:'Fredoka One',Impact,sans-serif;font-size:1.22rem;
+  border:none;border-radius:50px;padding:.82rem 2.3rem;
+  cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
+  min-width:110px;letter-spacing:.03em}
+.btn:hover{transform:scale(1.08) translateY(-3px)}
+.btn:active{transform:scale(.92)!important}
+.btn-pink{background:linear-gradient(135deg,#ff6b9d,#e8384b);color:#fff;
+  box-shadow:0 6px 22px rgba(232,56,75,.4)}
+.btn-pink:hover{box-shadow:0 10px 32px rgba(232,56,75,.55)}
+.btn-grey{background:linear-gradient(135deg,#bbb,#888);color:#fff;
+  box-shadow:0 5px 16px rgba(0,0,0,.2)}
+.btn-retry{background:linear-gradient(135deg,#ff6b9d,#e8384b);color:#fff;
+  font-size:1.18rem;padding:.85rem 2.6rem;
+  box-shadow:0 6px 22px rgba(232,56,75,.4);margin-top:.3rem}
+.btn-retry:hover{box-shadow:0 10px 32px rgba(232,56,75,.55);transform:scale(1.08) translateY(-3px)}
+
+/* HEARTS */
+.hearts{position:fixed;inset:0;pointer-events:none;z-index:9999}
+.h{position:absolute;animation:fly 1.3s ease forwards;font-size:1.5rem}
+@keyframes fly{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-260px) scale(.3)}}
+
+/* FADE OUT PAGE */
+.fadeout{animation:fo .8s ease forwards}
+@keyframes fo{to{opacity:0;transform:scale(1.05)}}
+
+@media(max-width:460px){
+  .card{padding:2rem 1.5rem;border-radius:28px}
+  .btn{font-size:1.05rem;padding:.7rem 1.6rem;min-width:90px}
+  .peng svg{width:118px;height:118px}
+  h1.bday{font-size:clamp(1.5rem,7vw,2.2rem)}
+}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="bg-ov"></div>
+<div class="hearts" id="hc"></div>
+
+<div class="page" id="pg">
+ <div class="card">
+
+  <!-- ══ SCREEN 1 — HAPPIEST BIRTHDAY ══ -->
+  <div class="screen active" id="s1">
+    <div class="confetti-row">🎊🎉🎈🎂🎉🎊</div>
+
+    <!-- Party penguin with hat -->
+    <div class="peng party">
+      <svg viewBox="0 0 200 215" xmlns="http://www.w3.org/2000/svg">
+        <!-- body -->
+        <ellipse cx="100" cy="138" rx="53" ry="58" fill="#2a2a2a"/>
+        <!-- belly -->
+        <ellipse cx="100" cy="146" rx="34" ry="42" fill="#f4f2ed"/>
+        <!-- head -->
+        <ellipse cx="100" cy="80" rx="39" ry="37" fill="#2a2a2a"/>
+        <!-- face patch -->
+        <ellipse cx="100" cy="85" rx="25" ry="23" fill="#f4f2ed"/>
+        <!-- happy eyes (closed / squint) -->
+        <path d="M83 77 Q88 73 93 77" stroke="#222" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+        <path d="M107 77 Q112 73 117 77" stroke="#222" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+        <!-- beak -->
+        <ellipse cx="100" cy="87" rx="7" ry="5" fill="#f5a623"/>
+        <!-- smile -->
+        <path d="M90 95 Q100 103 110 95" stroke="#555" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <!-- blush -->
+        <ellipse cx="80" cy="88" rx="7.5" ry="5" fill="#ffb3c6" opacity=".6"/>
+        <ellipse cx="120" cy="88" rx="7.5" ry="5" fill="#ffb3c6" opacity=".6"/>
+        <!-- wings raised (happy) -->
+        <ellipse cx="52" cy="132" rx="13" ry="26" fill="#2a2a2a" transform="rotate(-28 52 132)"/>
+        <ellipse cx="148" cy="132" rx="13" ry="26" fill="#2a2a2a" transform="rotate(28 148 132)"/>
+        <!-- feet -->
+        <ellipse cx="86" cy="194" rx="14" ry="7" fill="#f5a623"/>
+        <ellipse cx="114" cy="194" rx="14" ry="7" fill="#f5a623"/>
+        <!-- party hat -->
+        <polygon points="100,18 75,72 125,72" fill="#ff4d7a"/>
+        <polygon points="100,18 82,72 100,72" fill="#c9184a" opacity=".4"/>
+        <ellipse cx="100" cy="72" rx="25" ry="8" fill="#ff8fab"/>
+        <!-- hat stripes -->
+        <line x1="87" y1="45" x2="82" y2="55" stroke="#fff" stroke-width="2" opacity=".6"/>
+        <line x1="100" y1="35" x2="95" y2="50" stroke="#fff" stroke-width="2" opacity=".6"/>
+        <line x1="113" y1="45" x2="118" y2="55" stroke="#fff" stroke-width="2" opacity=".6"/>
+        <!-- hat star -->
+        <text x="100" y="20" font-size="13" text-anchor="middle" fill="#ffd700">⭐</text>
+        <!-- sparkles around -->
+        <text x="28" y="60" font-size="14" fill="#ffd700">✨</text>
+        <text x="158" y="55" font-size="14" fill="#ffd700">✨</text>
+        <text x="18" y="120" font-size="12" fill="#ff8fab">🌸</text>
+        <text x="162" y="115" font-size="12" fill="#ff8fab">🌸</text>
+      </svg>
+    </div>
+
+    <h1 class="bday">HAPPIEST BIRTHDAY! 🎂</h1>
+    <p class="sub pink">to someone so incredibly special ✨</p>
+    <div class="row">
+      <button class="btn btn-pink" onclick="goS2()">THANK YOU 🥰</button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 2 — ARE YOU READY FOR A SURPRISE ══ -->
+  <div class="screen" id="s2">
+
+    <span class="big-emoji">🎁</span>
+
+    <!-- Normal penguin looking curious -->
+    <div class="peng">
+      <svg viewBox="0 0 200 215" xmlns="http://www.w3.org/2000/svg">
+        <!-- body -->
+        <ellipse cx="100" cy="138" rx="53" ry="58" fill="#2a2a2a"/>
+        <ellipse cx="100" cy="146" rx="34" ry="42" fill="#f4f2ed"/>
+        <ellipse cx="100" cy="80" rx="39" ry="37" fill="#2a2a2a"/>
+        <ellipse cx="100" cy="85" rx="25" ry="23" fill="#f4f2ed"/>
+        <!-- wide curious eyes -->
+        <circle cx="88" cy="77" r="6" fill="#111"/>
+        <circle cx="86" cy="75.2" r="2" fill="#fff"/>
+        <circle cx="112" cy="77" r="6" fill="#111"/>
+        <circle cx="110" cy="75.2" r="2" fill="#fff"/>
+        <!-- excited open beak -->
+        <ellipse cx="100" cy="87" rx="7" ry="5.5" fill="#f5a623"/>
+        <!-- O-shaped mouth (excited) -->
+        <ellipse cx="100" cy="95" rx="5" ry="4" fill="#d44" opacity=".7"/>
+        <!-- blush -->
+        <ellipse cx="80" cy="89" rx="7.5" ry="5" fill="#ffb3c6" opacity=".6"/>
+        <ellipse cx="120" cy="89" rx="7.5" ry="5" fill="#ffb3c6" opacity=".6"/>
+        <!-- wings slightly up -->
+        <ellipse cx="53" cy="136" rx="13" ry="26" fill="#2a2a2a" transform="rotate(-20 53 136)"/>
+        <ellipse cx="147" cy="136" rx="13" ry="26" fill="#2a2a2a" transform="rotate(20 147 136)"/>
+        <!-- feet -->
+        <ellipse cx="86" cy="194" rx="14" ry="7" fill="#f5a623"/>
+        <ellipse cx="114" cy="194" rx="14" ry="7" fill="#f5a623"/>
+        <!-- question marks -->
+        <text x="25" y="80" font-size="22" fill="#ff8fab" opacity=".8">?</text>
+        <text x="165" y="75" font-size="22" fill="#ff8fab" opacity=".8">?</text>
+      </svg>
+    </div>
+
+    <h1>ARE YOU READY FOR<br>A SURPRISE? 🎁✨</h1>
+    <p class="sub">the penguin has been waiting for this moment...</p>
+    <div class="row">
+      <button class="btn btn-pink" onclick="goS3()">YES! I'M READY 🙌</button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 3 — PLS ACCEPT THE GIFT ══ -->
+  <div class="screen" id="s3">
+    <div class="peng" id="p3">
+      <svg viewBox="0 0 200 215" xmlns="http://www.w3.org/2000/svg">
+        <!-- body -->
+        <ellipse cx="100" cy="134" rx="53" ry="59" fill="#2a2a2a"/>
+        <ellipse cx="100" cy="142" rx="34" ry="43" fill="#f4f2ed"/>
+        <ellipse cx="100" cy="76" rx="39" ry="37" fill="#2a2a2a"/>
+        <ellipse cx="100" cy="81" rx="25" ry="23" fill="#f4f2ed"/>
+        <!-- eyes (pleading) -->
+        <circle cx="88" cy="73" r="6.5" fill="#111"/>
+        <circle cx="86" cy="71" r="2.2" fill="#fff"/>
+        <circle cx="112" cy="73" r="6.5" fill="#111"/>
+        <circle cx="110" cy="71" r="2.2" fill="#fff"/>
+        <!-- extra shine in eyes -->
+        <circle cx="90" cy="74" r="1" fill="#fff" opacity=".6"/>
+        <circle cx="114" cy="74" r="1" fill="#fff" opacity=".6"/>
+        <!-- beak -->
+        <ellipse cx="100" cy="83" rx="7" ry="5" fill="#f5a623"/>
+        <!-- blush -->
+        <ellipse cx="79" cy="84" rx="7.5" ry="5" fill="#ffb3c6" opacity=".6"/>
+        <ellipse cx="121" cy="84" rx="7.5" ry="5" fill="#ffb3c6" opacity=".6"/>
+        <!-- wings holding gift -->
+        <ellipse cx="54" cy="140" rx="13" ry="26" fill="#2a2a2a" transform="rotate(-14 54 140)"/>
+        <ellipse cx="146" cy="140" rx="13" ry="26" fill="#2a2a2a" transform="rotate(14 146 140)"/>
+        <!-- feet -->
+        <ellipse cx="86" cy="195" rx="14" ry="7" fill="#f5a623"/>
+        <ellipse cx="114" cy="195" rx="14" ry="7" fill="#f5a623"/>
+        <!-- gift box -->
+        <rect x="70" y="147" width="60" height="46" rx="7" fill="#ff8fab"/>
+        <rect x="65" y="139" width="70" height="17" rx="7" fill="#ff4d7a"/>
+        <rect x="96" y="139" width="9" height="54" rx="3" fill="rgba(255,255,255,.45)"/>
+        <rect x="65" y="149" width="70" height="8" rx="3" fill="rgba(255,255,255,.45)"/>
+        <ellipse cx="89" cy="137" rx="13" ry="8" fill="#ff4d7a" transform="rotate(-28 89 137)"/>
+        <ellipse cx="111" cy="137" rx="13" ry="8" fill="#ff4d7a" transform="rotate(28 111 137)"/>
+        <circle cx="100" cy="137" r="6" fill="#c9184a"/>
+        <text x="133" y="148" font-size="15" fill="#ffd700">✨</text>
+      </svg>
+    </div>
+    <h1>PLS ACCEPT THE GIFT 🥺🎁</h1>
+    <p class="sub">something very special is inside...</p>
+    <div class="row">
+      <button class="btn btn-pink" id="bY" onclick="goYes()">YES ❤️</button>
+      <button class="btn btn-grey" id="bN" onclick="goNo()">NO 😭</button>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 4 — NO screen ══ -->
+  <div class="screen" id="s4">
+    <div class="peng peng-sad">
+      <svg viewBox="0 0 200 215" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="134" rx="53" ry="59" fill="#9e9e9e"/>
+        <ellipse cx="100" cy="142" rx="34" ry="43" fill="#e0e0e0"/>
+        <ellipse cx="100" cy="76" rx="39" ry="37" fill="#9e9e9e"/>
+        <ellipse cx="100" cy="81" rx="25" ry="23" fill="#e0e0e0"/>
+        <text x="84" y="80" font-size="13" text-anchor="middle" fill="#555">😢</text>
+        <text x="116" y="80" font-size="13" text-anchor="middle" fill="#555">😢</text>
+        <path d="M88 93 Q100 87 112 93" stroke="#666" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="100" cy="86" rx="7" ry="5" fill="#f5a623"/>
+        <ellipse cx="75" cy="91" rx="3.5" ry="5.5" fill="#90caf9" opacity=".85"/>
+        <ellipse cx="125" cy="91" rx="3.5" ry="5.5" fill="#90caf9" opacity=".85"/>
+        <ellipse cx="54" cy="142" rx="13" ry="26" fill="#9e9e9e" transform="rotate(-5 54 142)"/>
+        <ellipse cx="146" cy="142" rx="13" ry="26" fill="#9e9e9e" transform="rotate(5 146 142)"/>
+        <ellipse cx="86" cy="195" rx="14" ry="7" fill="#f5a623"/>
+        <ellipse cx="114" cy="195" rx="14" ry="7" fill="#f5a623"/>
+      </svg>
+    </div>
+    <h2 class="no-h" id="nT">WHY DID YOU CLICK NO?! 😭</h2>
+    <p class="no-s" id="nS">the penguin is crying... look what you did 🐧💔</p>
+    <button class="btn btn-retry" onclick="goRetry()">TRY AGAIN 🥺</button>
+  </div>
+
+ </div><!-- card -->
+</div><!-- page -->
+
+<script>
+var noCount = 0;
+var msgs = [
+  ["WHY DID YOU CLICK NO?! 😭",          "the penguin is crying... look what you did 🐧💔"],
+  ["ARE YOU SURE?! 😱",                   "the penguin is STILL crying... please say yes 🥺"],
+  ["OKAY THAT IS JUST MEAN 😤",           "the little penguin dropped the gift now 🎁😢"],
+  ["FINE... LAST CHANCE 😒",              "it is compulsory. The penguin demands it 🐧📜"],
+  ["THE PENGUIN IS WRITING A COMPLAINT",  "please... just click TRY AGAIN. Pretty please 🥺"]
+];
+var hoverCount = 0;
+
+function show(id) {
+  var screens = document.querySelectorAll('.screen');
+  for (var i = 0; i < screens.length; i++) {
+    screens[i].classList.remove('active');
+  }
+  var el = document.getElementById(id);
+  // Force reflow for animation
+  void el.offsetWidth;
+  el.classList.add('active');
+}
+
+function goS2() { burstSmall(); show('s2'); }
+function goS3() { burstSmall(); show('s3'); }
+
+function goNo() {
+  var b = document.getElementById("bN");
+  b.style.transform = "scale(0.85) rotate(-12deg)";
+  setTimeout(function(){ b.style.transform = ""; }, 350);
+  var i = Math.min(noCount, msgs.length - 1);
+  document.getElementById("nT").textContent = msgs[i][0];
+  document.getElementById("nS").textContent = msgs[i][1];
+  noCount++;
+  show('s4');
+}
+
+function goRetry() { show('s3'); }
+
+function goYes() {
+  burst();
+  setTimeout(function(){
+    document.getElementById("pg").classList.add("fadeout");
+  }, 420);
+  setTimeout(function(){
+    window.location.href = "index.html";
+  }, 1200);
+}
+
+function burstSmall() {
+  var hc = document.getElementById("hc");
+  var em = ["🎉","🎊","✨","🌸","💛","🧡"];
+  for (var i = 0; i < 14; i++) {
+    (function(){
+      var el = document.createElement("span");
+      el.className = "h";
+      el.textContent = em[Math.floor(Math.random() * em.length)];
+      el.style.left = (10 + Math.random() * 80) + "vw";
+      el.style.top  = (40 + Math.random() * 45) + "vh";
+      el.style.animationDelay = (Math.random() * 0.35) + "s";
+      el.style.fontSize = (1 + Math.random() * 1.2) + "rem";
+      hc.appendChild(el);
+      setTimeout(function(){ el.remove(); }, 1700);
+    })();
+  }
+}
+
+function burst() {
+  var hc = document.getElementById("hc");
+  var em = ["❤️","🧡","💛","💗","💖","✨","🎁","🎊","🌸","🥳","🎉","🎈"];
+  for (var i = 0; i < 35; i++) {
+    (function(){
+      var el = document.createElement("span");
+      el.className = "h";
+      el.textContent = em[Math.floor(Math.random() * em.length)];
+      el.style.left = (Math.random() * 100) + "vw";
+      el.style.top  = (40 + Math.random() * 45) + "vh";
+      el.style.animationDelay = (Math.random() * 0.5) + "s";
+      el.style.fontSize = (1.1 + Math.random() * 1.5) + "rem";
+      hc.appendChild(el);
+      setTimeout(function(){ el.remove(); }, 1900);
+    })();
+  }
+}
+
+// NO button runs away on hover
+document.addEventListener('DOMContentLoaded', function(){
+  var bN = document.getElementById("bN");
+  if (!bN) return;
+  bN.addEventListener("mouseenter", function(){
+    hoverCount++;
+    if (hoverCount > 2 && noCount === 0) {
+      var x = (Math.random() - 0.5) * 130;
+      var y = (Math.random() - 0.5) * 80;
+      this.style.transform = "translate("+x+"px,"+y+"px) scale(0.88)";
+      var self = this;
+      setTimeout(function(){ self.style.transform = ""; }, 800);
+    }
+  });
+});
+</script>
+</body>
+</html>

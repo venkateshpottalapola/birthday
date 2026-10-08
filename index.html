@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Priya ✨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Great+Vibes&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+
+<!-- FULLSCREEN BACKGROUND VIDEO -->
+<div class="video-bg-wrap" id="videoBgWrap">
+  <video
+    class="video-bg"
+    id="videoBg"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    aria-hidden="true"
+  >
+    <source src="assets/m1.mp4" type="video/mp4">
+  </video>
+  <div class="video-overlay"></div>
+</div>
+
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-inner">
+    <div class="loading-star">✨</div>
+    <p class="loading-text">CREATING YOUR MOMENTS...</p>
+    <div class="loading-bar-wrap"><div class="loading-bar" id="loadingBar"></div></div>
+  </div>
+</div>
+
+<!-- INTRO SCREEN -->
+<section class="intro-screen" id="introScreen">
+  <canvas class="stars-canvas" id="starsCanvas"></canvas>
+  <canvas class="ptcl-canvas" id="ptclCanvas"></canvas>
+  <div class="intro-glow"></div>
+  <div class="intro-content">
+    <p class="intro-line" id="il1">Tonight is not just another night...</p>
+    <p class="intro-line" id="il2">Because someone very special was born.</p>
+    <p class="intro-line" id="il3">Are you ready for your surprise?</p>
+    <button class="glow-btn" id="openBtn">
+      <span class="glow-btn-text">OPEN YOUR SURPRISE ✨</span>
+      <div class="ripple" id="rippleEl"></div>
+    </button>
+  </div>
+</section>
+
+<!-- MAIN SITE -->
+<div class="site" id="site">
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">✨</div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#hero"     class="nav-link">Home</a></li>
+        <li><a href="#memories" class="nav-link">Memories</a></li>
+        <li><a href="#timeline" class="nav-link">Timeline</a></li>
+        <li><a href="#letter"   class="nav-link">Letter</a></li>
+        <li><a href="#surprise" class="nav-link">Surprise</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero-sec section" id="hero">
+    <canvas class="hero-ptcl" id="heroCanvas"></canvas>
+    <div class="hero-content">
+      <p class="eyebrow anim">THE DAY THE WORLD GOT A LITTLE BRIGHTER</p>
+      <h1 class="hero-heading">
+        <span class="hero-main anim">HAPPIEST BIRTHDAY</span>
+        <span class="hero-name anim" id="heroName">Priya</span>
+      </h1>
+      <p class="hero-sub anim">Today is all about celebrating <em>YOU.</em></p>
+      <div class="hero-cake anim" id="heroCake">
+        <div class="hc-candle-row">
+          <div class="hc-candle"><div class="hc-flame"></div></div>
+          <div class="hc-candle"><div class="hc-flame"></div></div>
+          <div class="hc-candle"><div class="hc-flame"></div></div>
+        </div>
+        <div class="hc-tier hc-top"></div>
+        <div class="hc-tier hc-mid"></div>
+        <div class="hc-tier hc-bot"></div>
+        <div class="hc-plate"></div>
+        <div class="hc-glow-ring"></div>
+      </div>
+      <div class="hero-btns anim">
+        <a href="#memories" class="btn-primary">EXPLORE MEMORIES</a>
+        <a href="#cake"     class="btn-secondary">MAKE A WISH 🎂</a>
+      </div>
+    </div>
+    <div class="scroll-indicator"><div class="scroll-dot"></div></div>
+  </section>
+
+  <!-- CAKE SECTION -->
+  <section class="cake-section section" id="cake">
+    <canvas class="cake-ptcl" id="cakeCanvas"></canvas>
+    <div class="sec-inner">
+      <p class="eyebrow anim">CLOSE YOUR EYES</p>
+      <h2 class="sec-title anim">Make a wish...</h2>
+      <div class="cake-area">
+        <div class="big-cake" id="bigCake" role="button" tabindex="0" aria-label="Click to blow out candles">
+          <div class="big-candles" id="bigCandles">
+            <div class="big-candle"><div class="big-flame"></div></div>
+            <div class="big-candle"><div class="big-flame"></div></div>
+            <div class="big-candle"><div class="big-flame"></div></div>
+            <div class="big-candle"><div class="big-flame"></div></div>
+            <div class="big-candle"><div class="big-flame"></div></div>
+          </div>
+          <div class="big-tier big-top">
+            <div class="tier-deco"></div>
+          </div>
+          <div class="big-tier big-mid">
+            <div class="tier-deco"></div>
+          </div>
+          <div class="big-tier big-bot">
+            <div class="tier-deco"></div>
+          </div>
+          <div class="big-plate"></div>
+          <div class="big-glow"></div>
+        </div>
+        <p class="cake-hint anim">✨ Click the cake to blow out the candles ✨</p>
+        <div class="wish-reveal" id="wishReveal">
+          <p class="wish-title">✨ WISH MADE ✨</p>
+          <p class="wish-body">May every little dream in your heart find its way to you.</p>
+          <button class="relight-btn" id="relightBtn">LIGHT THE CANDLES AGAIN 🕯️</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEMORIES / GALLERY -->
+  <section class="memories-section section" id="memories">
+    <div class="sec-inner">
+      <p class="eyebrow anim">CHERISHED MOMENTS</p>
+      <h2 class="sec-title anim">Memories That Deserve<br>To Be Remembered</h2>
+      <p class="sec-sub anim">Some moments become memories. Some memories become treasures.</p>
+      <div class="gallery-grid" id="galleryGrid"></div>
+
+      <div class="mem-cards">
+        <article class="mem-card anim">
+          <div class="mc-ico"><i class="fa-solid fa-face-laugh-beam"></i></div>
+          <h3 class="mc-title">The Laughs</h3>
+          <p class="mc-text">Because some of our best memories started with something completely silly.</p>
+        </article>
+        <article class="mem-card anim">
+          <div class="mc-ico"><i class="fa-solid fa-compass"></i></div>
+          <h3 class="mc-title">The Adventures</h3>
+          <p class="mc-text">Every little adventure became a story worth remembering.</p>
+        </article>
+        <article class="mem-card anim">
+          <div class="mc-ico"><i class="fa-solid fa-star"></i></div>
+          <h3 class="mc-title">The Moments</h3>
+          <p class="mc-text">Some moments are ordinary when they happen, but unforgettable later.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="lb-close" id="lbClose" aria-label="Close lightbox"><i class="fa-solid fa-xmark"></i></button>
+    <button class="lb-prev"  id="lbPrev"  aria-label="Previous image"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="lb-next"  id="lbNext"  aria-label="Next image"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="lb-wrap">
+      <img class="lb-img" id="lbImg" src="" alt="Memory photo">
+      <p class="lb-caption" id="lbCaption"></p>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <section class="timeline-section section" id="timeline">
+    <div class="sec-inner">
+      <p class="eyebrow anim">THE JOURNEY</p>
+      <h2 class="sec-title anim">Our Little Timeline</h2>
+      <div class="timeline-wrap" id="timelineWrap"></div>
+    </div>
+  </section>
+
+  <!-- LETTER -->
+  <section class="letter-section section" id="letter">
+    <div class="sec-inner">
+      <p class="eyebrow anim">FROM THE HEART</p>
+      <h2 class="sec-title anim">A Little Letter For You</h2>
+      <div class="letter-card anim">
+        <div class="ruled-lines"></div>
+        <div class="letter-inner">
+          <p class="letter-greeting" id="letterGreeting"></p>
+          <div class="letter-body" id="letterBody" aria-live="polite"></div>
+          <p class="letter-sign" id="letterSign"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY YOU'RE SPECIAL -->
+  <section class="reasons-section section" id="reasons">
+    <div class="sec-inner">
+      <p class="eyebrow anim">JUST SO YOU KNOW</p>
+      <h2 class="sec-title anim">Why You're Special</h2>
+      <div class="reasons-grid" id="reasonsGrid"></div>
+    </div>
+  </section>
+
+  <!-- GIFT / SURPRISE -->
+  <section class="gift-section section" id="surprise">
+    <canvas class="gift-ptcl" id="giftCanvas"></canvas>
+    <div class="sec-inner">
+      <p class="eyebrow anim">ONE MORE THING...</p>
+      <h2 class="sec-title anim">One Last Surprise...</h2>
+      <p class="sec-sub anim">You've made it this far. There's something waiting for you.</p>
+      <div class="gift-area">
+        <div class="gift-box" id="giftBox" role="button" tabindex="0" aria-label="Click to open your gift" aria-expanded="false">
+          <div class="gift-lid" id="giftLid">
+            <div class="g-rh"></div>
+          </div>
+          <div class="gift-body-box">
+            <div class="g-rv"></div>
+            <div class="g-rh2"></div>
+          </div>
+          <div class="gift-bow">
+            <div class="bow-l"></div>
+            <div class="bow-r"></div>
+            <div class="bow-c"></div>
+          </div>
+          <div class="gift-shine"></div>
+        </div>
+        <p class="gift-tap" id="giftTap">🎁 OPEN ME</p>
+        <div class="secret-msg" id="secretMsg" aria-hidden="true">
+          <div class="secret-tag">SECRET MESSAGE UNLOCKED ❤️</div>
+          <p class="secret-text" id="secretText"></p>
+          <div class="heartbeat"><i class="fa-solid fa-heart"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CELEBRATION -->
+  <section class="final-section section" id="final">
+    <canvas class="final-ptcl" id="finalCanvas"></canvas>
+    <div class="final-glow-ring"></div>
+    <div class="final-content">
+      <p class="eyebrow anim">ONE MORE TIME...</p>
+      <h2 class="final-title anim">HAPPY BIRTHDAY</h2>
+      <p class="final-name anim" id="finalName">Potti ❤️</p>
+      <p class="final-msg anim">May this year be your most beautiful chapter yet.</p>
+      <button class="glow-btn mt-2" id="replayBtn">
+        <span class="glow-btn-text">REPLAY THE EXPERIENCE</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- MUSIC PLAYER -->
+  <div class="music-player" id="musicPlayer">
+    <button class="music-btn" id="musicBtn" aria-label="Toggle music" aria-pressed="false">
+      <i class="fa-solid fa-music" id="musicIcon"></i>
+    </button>
+    <div class="eq-bars" id="eqBars" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <input type="range" class="vol-slider" id="volSlider" min="0" max="1" step="0.05" value="0.4" aria-label="Volume">
+    <!-- Hidden YouTube IFrame for audio (muYF-4wGOoI) -->
+    <div id="ytPlayerContainer" style="position:fixed;bottom:-200px;left:-200px;width:1px;height:1px;pointer-events:none;" aria-hidden="true"><div id="ytPlayer"></div></div>
+  </div>
+
+</div><!-- /.site -->
+
+<!-- YouTube IFrame API (loads async, does not block page) -->
+<script>
+  function onYouTubeIframeAPIReady(){
+    window.__ytReady = true;
+    if(window.__ytInit) window.__ytInit();
+  }
+</script>
+<script src="https://www.youtube.com/iframe_api" async></script>
+<script src="script.js"></script>
+</body>
+</html>

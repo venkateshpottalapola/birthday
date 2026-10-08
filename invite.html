@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Are Cordially Invited</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Poppins:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ──────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+
+/* ── CSS VARS ───────────────────────────────── */
+:root {
+  --gold: #c9a84c;
+  --gold-l: #e8c96d;
+  --gold-d: #8a6f2e;
+  --black: #07070a;
+  --off: #f5f0e8;
+  --off2: rgba(245,240,232,0.55);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Poppins', sans-serif;
+}
+
+/* ── BACKGROUND ─────────────────────────────── */
+body {
+  background: var(--black);
+  color: var(--off);
+  font-family: var(--serif);
+  cursor: default;
+  user-select: none;
+}
+
+/* Grain texture overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.045'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+/* Ambient center glow */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.06) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+/* ── PARTICLE CANVAS ────────────────────────── */
+#canvas {
+  position: fixed; inset: 0; z-index: 2;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+/* ── MAIN WRAPPER ───────────────────────────── */
+.wrap {
+  position: fixed; inset: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+/* ── INVITATION CARD ────────────────────────── */
+.card {
+  text-align: center;
+  max-width: 680px; width: 100%;
+  position: relative;
+  animation: cardIn 2.2s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── TOP LINE ───────────────────────────────── */
+.top-line {
+  display: flex; align-items: center; gap: 1.2rem;
+  justify-content: center; margin-bottom: 2.8rem;
+  animation: fadeUp 1.6s 0.3s both;
+}
+.line-rule {
+  flex: 1; height: 1px; max-width: 90px;
+  background: linear-gradient(90deg, transparent, var(--gold-d));
+}
+.line-rule.right { background: linear-gradient(90deg, var(--gold-d), transparent); }
+.top-emblem {
+  font-size: 0.62rem; letter-spacing: 0.38em;
+  color: var(--gold-d); font-family: var(--sans); font-weight: 300;
+  text-transform: uppercase;
+}
+
+/* ── CORDIALLY INVITED ──────────────────────── */
+.cordially {
+  font-family: var(--sans); font-weight: 200;
+  font-size: clamp(0.58rem, 1.8vw, 0.72rem);
+  letter-spacing: 0.48em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.55rem;
+  animation: fadeUp 1.6s 0.55s both;
+}
+.cordially-main {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(1.4rem, 4vw, 2.1rem);
+  letter-spacing: 0.08em; color: var(--off);
+  line-height: 1.2; margin-bottom: 0.4rem;
+  animation: fadeUp 1.6s 0.7s both;
+}
+.cordially-sub {
+  font-family: var(--sans); font-weight: 200;
+  font-size: clamp(0.55rem, 1.6vw, 0.68rem);
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--off2); margin-bottom: 2.8rem;
+  animation: fadeUp 1.6s 0.9s both;
+}
+
+/* ── GOLD DIVIDER ───────────────────────────── */
+.divider {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1rem; margin-bottom: 2.8rem;
+  animation: fadeUp 1.6s 1.05s both;
+}
+.div-rule {
+  height: 1px; width: 80px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.5));
+}
+.div-rule.right { background: linear-gradient(90deg, rgba(201,168,76,0.5), transparent); }
+.div-emblem {
+  width: 28px; height: 28px; position: relative;
+}
+.div-emblem::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.45);
+  border-radius: 50%;
+  transform: rotate(45deg);
+}
+.div-emblem::after {
+  content: '✦';
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; color: var(--gold);
+}
+
+/* ── MAIN TITLE ─────────────────────────────── */
+.name {
+  font-family: var(--serif); font-weight: 600;
+  font-size: clamp(2.8rem, 9vw, 6.5rem);
+  line-height: 1.0; letter-spacing: 0.06em;
+  color: var(--off);
+  background: linear-gradient(135deg, var(--off) 0%, var(--gold-l) 50%, var(--off) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeUp 1.8s 1.15s both;
+  margin-bottom: 0.1rem;
+}
+.birthday-text {
+  font-family: var(--sans); font-weight: 200;
+  font-size: clamp(0.6rem, 2vw, 0.82rem);
+  letter-spacing: 0.65em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 2.4rem;
+  animation: fadeUp 1.6s 1.35s both;
+}
+
+/* ── DATE ───────────────────────────────────── */
+.date-wrap {
+  display: inline-flex; align-items: center; gap: 1rem;
+  margin-bottom: 3.2rem;
+  animation: fadeUp 1.6s 1.5s both;
+}
+.date-rule { width: 40px; height: 1px; background: rgba(201,168,76,0.4); }
+.date {
+  font-family: var(--serif); font-weight: 300; font-style: italic;
+  font-size: clamp(0.95rem, 2.5vw, 1.22rem);
+  letter-spacing: 0.12em; color: var(--gold-l);
+}
+
+/* ── ACCEPT BUTTON ──────────────────────────── */
+.btn-wrap {
+  margin-bottom: 2.4rem;
+  animation: fadeUp 1.6s 1.7s both;
+}
+.btn-accept {
+  display: inline-flex; align-items: center; gap: 0.9rem;
+  font-family: var(--sans); font-size: clamp(0.58rem, 1.8vw, 0.7rem);
+  font-weight: 300; letter-spacing: 0.42em; text-transform: uppercase;
+  color: var(--gold-l);
+  background: rgba(201,168,76,0.06);
+  border: 1px solid rgba(201,168,76,0.35);
+  padding: 1.15rem 3rem; border-radius: 2px;
+  cursor: pointer; transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+  position: relative; overflow: hidden;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  outline: none; text-decoration: none;
+}
+.btn-accept::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(201,168,76,0) 0%, rgba(201,168,76,0.08) 50%, rgba(201,168,76,0) 100%);
+  transform: translateX(-100%);
+  transition: transform 0.7s ease;
+}
+.btn-accept:hover::before { transform: translateX(100%); }
+.btn-accept:hover {
+  border-color: rgba(201,168,76,0.75);
+  box-shadow: 0 0 32px rgba(201,168,76,0.18), 0 0 80px rgba(201,168,76,0.08), inset 0 0 20px rgba(201,168,76,0.06);
+  color: var(--gold-l);
+  letter-spacing: 0.52em;
+  background: rgba(201,168,76,0.09);
+}
+.btn-arrow {
+  font-size: 0.85rem; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  display: inline-block;
+}
+.btn-accept:hover .btn-arrow { transform: translateX(5px); }
+
+/* ── HUMOR TEXT ─────────────────────────────── */
+.humor {
+  font-family: var(--sans); font-weight: 200;
+  font-size: clamp(0.5rem, 1.4vw, 0.6rem);
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(245,240,232,0.28); line-height: 2.2;
+  animation: fadeUp 1.6s 1.95s both;
+  transition: color 0.4s;
+}
+.humor:hover { color: rgba(245,240,232,0.5); }
+
+/* ── BOTTOM RULE ────────────────────────────── */
+.bottom-rule {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.25) 30%, rgba(201,168,76,0.25) 70%, transparent);
+  z-index: 11;
+  animation: fadeUp 2s 2.1s both;
+}
+
+/* ── TRANSITION OVERLAY ─────────────────────── */
+.transition-ov {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--black);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+.transition-ov.active { opacity: 1; pointer-events: all; }
+
+/* ── ANIMATIONS ─────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 480px) {
+  .wrap { padding: 1.5rem 1.2rem; }
+  .top-line { margin-bottom: 1.8rem; }
+  .cordially-sub { margin-bottom: 1.8rem; }
+  .divider { margin-bottom: 1.8rem; }
+  .birthday-text { margin-bottom: 1.6rem; }
+  .date-wrap { margin-bottom: 2.2rem; }
+  .btn-wrap { margin-bottom: 1.8rem; }
+  .btn-accept { padding: 1rem 2.2rem; }
+}
+@media (max-height: 700px) {
+  .top-line { margin-bottom: 1.4rem; }
+  .cordially-sub { margin-bottom: 1.4rem; }
+  .divider { margin-bottom: 1.4rem; }
+  .birthday-text { margin-bottom: 1.2rem; }
+  .date-wrap { margin-bottom: 1.8rem; }
+  .btn-wrap { margin-bottom: 1.4rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Particle canvas -->
+<canvas id="canvas"></canvas>
+
+<!-- Transition overlay -->
+<div class="transition-ov" id="tov"></div>
+
+<!-- Bottom edge rule -->
+<div class="bottom-rule"></div>
+
+<!-- Main invitation card -->
+<div class="wrap">
+  <div class="card">
+
+    <!-- Top decorative rule -->
+    <div class="top-line">
+      <div class="line-rule"></div>
+      <span class="top-emblem">Est. October 2026</span>
+      <div class="line-rule right"></div>
+    </div>
+
+    <!-- Cordially invited -->
+    <p class="cordially">You Are Cordially Invited</p>
+    <h2 class="cordially-main">To A Very Important Celebration</h2>
+    <p class="cordially-sub">An occasion of the highest significance</p>
+
+    <!-- Gold divider with emblem -->
+    <div class="divider">
+      <div class="div-rule"></div>
+      <div class="div-emblem"></div>
+      <div class="div-rule right"></div>
+    </div>
+
+    <!-- Main name & title -->
+    <h1 class="name">PRIYAAA</h1>
+    <p class="birthday-text">Birthday</p>
+
+    <!-- Date -->
+    <div class="date-wrap">
+      <div class="date-rule"></div>
+      <span class="date">28 · 10 · 2026</span>
+      <div class="date-rule"></div>
+    </div>
+
+    <!-- Accept button -->
+    <div class="btn-wrap">
+      <button class="btn-accept" id="acceptBtn" onclick="accept()">
+        Accept Invitation
+        <span class="btn-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- Subtle humor -->
+    <p class="humor">
+      Dress code: Looking fabulous &nbsp;·&nbsp; Age requirement: Unfortunately, irrelevant.
+    </p>
+
+  </div>
+</div>
+
+<script>
+/* ── PARTICLES ─────────────────────────────── */
+(function(){
+  var c = document.getElementById('canvas');
+  var ctx = c.getContext('2d');
+  var W, H, pts = [];
+  var isMobile = window.innerWidth < 600;
+
+  function resize(){
+    W = c.width  = window.innerWidth;
+    H = c.height = window.innerHeight;
+  }
+  function mkPt(){
+    return {
+      x: Math.random()*W, y: Math.random()*H,
+      vx: (Math.random()-.5)*0.22,
+      vy: (Math.random()-.72)*0.18,
+      r: Math.random()*1.2+0.3,
+      a: Math.random()*0.35+0.08,
+      sp: Math.random()*0.004+0.002,
+      d: Math.random()>0.5?1:-1
+    };
+  }
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(function(p){
+      p.a += p.sp*p.d;
+      if(p.a>0.42||p.a<0.05) p.d*=-1;
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.y<-8){ p.y=H+8; p.x=Math.random()*W; }
+      if(p.x<-8) p.x=W+8;
+      if(p.x>W+8) p.x=-8;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(201,168,76,'+p.a+')';
+      ctx.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+  var n = isMobile ? 28 : 68;
+  for(var i=0;i<n;i++) pts.push(mkPt());
+  frame();
+})();
+
+/* ── ACCEPT BUTTON ─────────────────────────── */
+function accept(){
+  var btn = document.getElementById('acceptBtn');
+  btn.style.pointerEvents = 'none';
+  btn.style.letterSpacing = '0.6em';
+  btn.style.opacity = '0.7';
+
+  // Flash the overlay and navigate
+  var ov = document.getElementById('tov');
+  ov.classList.add('active');
+  setTimeout(function(){
+    window.location.href = 'opening.html';
+  }, 900);
+}
+
+/* Keyboard support */
+document.getElementById('acceptBtn').addEventListener('keydown',function(e){
+  if(e.key==='Enter'||e.key===' '){ e.preventDefault(); accept(); }
+});
+</script>
+</body>
+</html>
